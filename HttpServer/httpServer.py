@@ -15,7 +15,7 @@ def run(server_class=HTTPServer, handler_class=BaseHTTPRequestHandler):
       httpd.server_close()
 
 class HttpGetHandler(BaseHTTPRequestHandler):
-    """Обработчик с реализованным методом do_GET."""
+    #"""Обработчик с реализованным методом do_GET."""
     sid: str = ''
     cookie = None
     def generate_sid(self):
@@ -77,6 +77,14 @@ class HttpGetHandler(BaseHTTPRequestHandler):
         else:
             self.ret404()
 
+    def do_user_search(self, first_name, second_name):
+        db = db_api()
+        users = db.user_search(first_name, second_name)
+        if users:
+            self.ret200(title='Результат поиска пользователей', body=f'{users}')
+        else:
+            self.ret404()
+            
     def do_GET(self):
         parsed_url = urlparse(self.path)
         res = re.match(r"(/user/get/)(\d+)", self.path)
@@ -94,7 +102,7 @@ class HttpGetHandler(BaseHTTPRequestHandler):
             path = res.group(1)
             user_id = res.group(2)
         if path=='/login':
-            #http: // localhost: 8000 / login?user = 5 & password = 321
+            #http://localhost:8000/login?user=5&password=321
             user_id = parse_qs(parsed_url.query)['user'][0]
             password = parse_qs(parsed_url.query)['password'][0]
             self.do_Login(user_id=user_id, password=password)
@@ -113,8 +121,14 @@ class HttpGetHandler(BaseHTTPRequestHandler):
             self.do_user_register(user_id, first_name, second_name, birthdate,
                                   sex, biography, city, password)
         elif path=='/user/get/':
-            #http://localhost:8000/get/10
+            #http://localhost:8000/user/get/10
             self.do_user_get(user_id)
+        elif path=='/user/search':
+            #http://localhost:8000/user/search?first_name=Абрамов%&second_name=A%
+            first_name = parse_qs(parsed_url.query)['first_name'][0]
+            second_name = parse_qs(parsed_url.query)['second_name'][0]
+            self.do_user_search(first_name, second_name)
+            
         else:
             self.ret404()
 

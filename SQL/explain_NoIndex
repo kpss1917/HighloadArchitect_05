@@ -1,0 +1,20 @@
+[
+  {
+    "QUERY PLAN": "Gather Merge  (cost=18201.09..18202.25 rows=10 width=492)"
+  },
+  {
+    "QUERY PLAN": "  Workers Planned: 2"
+  },
+  {
+    "QUERY PLAN": "  ->  Sort  (cost=17201.06..17201.08 rows=5 width=492)"
+  },
+  {
+    "QUERY PLAN": "        Sort Key: id"
+  },
+  {
+    "QUERY PLAN": "        ->  Parallel Seq Scan on users  (cost=0.00..17201.01 rows=5 width=492)"
+  },
+  {
+    "QUERY PLAN": "              Filter: (((first_name)::text ~~ 'Абрамов%'::text) AND ((second_name)::text ~~ 'А%'::text))"
+  }
+]

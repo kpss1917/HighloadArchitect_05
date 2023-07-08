@@ -4,9 +4,9 @@ WORKDIR /app
 
 RUN pip3 install psycopg2
 
-COPY . . 
+COPY . .
 
-EXPOSE: 8000
+EXPOSE 8000
 
-#CMD [ "python", "httpServer.py" ]
-ENTRYPOINT [“python3”, httpServer.py”]
+#CMD [ "python3", "httpServer.py" ]
+ENTRYPOINT [“python3”, "httpServer.py”]

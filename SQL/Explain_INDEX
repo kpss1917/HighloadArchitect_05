@@ -1,0 +1,20 @@
+[
+  {
+    "QUERY PLAN": "Sort  (cost=3815.00..3815.03 rows=13 width=492)"
+  },
+  {
+    "QUERY PLAN": "  Sort Key: id"
+  },
+  {
+    "QUERY PLAN": "  ->  Bitmap Heap Scan on users  (cost=124.44..3814.76 rows=13 width=492)"
+  },
+  {
+    "QUERY PLAN": "        Filter: (((first_name)::text ~~ 'Абрамов%'::text) AND ((second_name)::text ~~ 'А%'::text))"
+  },
+  {
+    "QUERY PLAN": "        ->  Bitmap Index Scan on ix_api_users_first_name_second_name  (cost=0.00..124.43 rows=1297 width=0)"
+  },
+  {
+    "QUERY PLAN": "              Index Cond: (((first_name)::text ~>=~ 'Абрамов'::text) AND ((first_name)::text ~<~ 'Абрамог'::text) AND ((second_name)::text ~>=~ 'А'::text) AND ((second_name)::text ~<~ 'Б'::text))"
+  }
+]
